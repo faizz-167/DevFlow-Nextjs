@@ -39,5 +39,11 @@
     },
     "[css]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "files.exclude": {
+        "**/node_modules": true,
+        "**/.vscode": true,
+        "**/.next": true,
+        "next-env.d.ts": true
     }
 }
