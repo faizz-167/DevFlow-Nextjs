@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 const inter = Inter({
     variable: "--font-inter",
@@ -33,6 +34,13 @@ const RootLayout = async ({
     const session = await auth();
     return (
         <html lang="en" suppressHydrationWarning={true}>
+            <head>
+                <link
+                    rel="stylesheet"
+                    type="text/css"
+                    href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+                />
+            </head>
             <SessionProvider session={session}>
                 <body
                     className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
@@ -43,7 +51,7 @@ const RootLayout = async ({
                         disableTransitionOnChange
                         enableSystem
                     >
-                        {children}
+                        <NuqsAdapter>{children}</NuqsAdapter>
                         <Toaster position="top-center" richColors />
                     </ThemeProvider>
                 </body>
