@@ -54,6 +54,14 @@ const eslintConfig = [
             ],
             "comma-dangle": "off",
         },
+        "overrides": [
+            {
+                files: ["*.ts", "*.tsx"],
+                rules: {
+                    "no-undef": "off",
+                },
+            },
+        ],
     },
     {
         files: ["**/*.ts", "**/*.tsx"],

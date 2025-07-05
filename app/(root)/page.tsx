@@ -1,4 +1,5 @@
 import { auth, signOut } from "@/auth";
+import QuestioCard from "@/components/cards/QuestioCard";
 import HomeFilter from "@/components/filter/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
@@ -7,45 +8,45 @@ import Link from "next/link";
 
 const questions = [
     {
-        _id: 1,
+        _id: "1",
         title: "What is Next.js?",
         description:
             "Next.js is a React framework for building server-side rendered applications.",
         tags: [
-            { _id: 1, name: "react" },
-            { _id: 2, name: "nextjs" },
+            { _id: "1", name: "react" },
+            { _id: "2", name: "nextjs" },
         ],
-        author: { _id: 1, name: "John Doe" },
+        author: { _id: "1", name: "John Doe", image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg" },
         upvotes: 10,
         answers: 5,
         views: 100,
         createdAt: new Date(),
     },
     {
-        _id: 2,
+        _id: "2",
         title: "How to use React Hooks?",
         description:
             "React Hooks are functions that let you use state and other React features without writing a class.",
         tags: [
-            { _id: 3, name: "react" },
-            { _id: 4, name: "hooks" },
+            { _id: "3", name: "react" },
+            { _id: "4", name: "hooks" },
         ],
-        author: { _id: 2, name: "Jane Doe" },
+        author: { _id: "2", name: "Jane Doe", image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg" },
         upvotes: 5,
         answers: 3,
         views: 50,
-        createdAt: new Date(),
+        createdAt: new Date("2023-11-01"),
     },
     {
-        _id: 3,
+        _id: "3",
         title: "What is TypeScript?",
         description:
             "TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.",
         tags: [
-            { _id: 5, name: "typescript" },
-            { _id: 6, name: "javascript" },
+            { _id: "5", name: "typescript" },
+            { _id: "6", name: "javascript" },
         ],
-        author: { _id: 3, name: "Bob Smith" },
+        author: { _id: "3", name: "Bob Smith", image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg" },
         upvotes: 8,
         answers: 2,
         views: 75,
@@ -95,8 +96,8 @@ const Home = async ({ searchParams }: SearchParams) => {
             </section>
             <HomeFilter />
             <div className="mt-10 flex w-full flex-col gap-6">
-                {filteredQuestions.map((question) => (
-                    <h1 key={question._id}>{question.title}</h1>
+                {filteredQuestions.map((q) => (
+                    <QuestioCard key={q._id} question={q} />
                 ))}
             </div>
         </>
