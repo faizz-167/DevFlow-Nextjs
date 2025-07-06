@@ -55,7 +55,7 @@ const TagCard = ({
 
     return isButton ? (
         <button
-            onClick={(e) => e.preventDefault()}
+            type="button"
             className="justify-between flex gap-2"
         >
             {content}
