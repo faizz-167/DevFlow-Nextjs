@@ -16,7 +16,11 @@ const questions = [
             { _id: "1", name: "react" },
             { _id: "2", name: "nextjs" },
         ],
-        author: { _id: "1", name: "John Doe", image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg" },
+        author: {
+            _id: "1",
+            name: "John Doe",
+            image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+        },
         upvotes: 10,
         answers: 5,
         views: 100,
@@ -31,7 +35,11 @@ const questions = [
             { _id: "3", name: "react" },
             { _id: "4", name: "hooks" },
         ],
-        author: { _id: "2", name: "Jane Doe", image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg" },
+        author: {
+            _id: "2",
+            name: "Jane Doe",
+            image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+        },
         upvotes: 5,
         answers: 3,
         views: 50,
@@ -46,19 +54,37 @@ const questions = [
             { _id: "5", name: "typescript" },
             { _id: "6", name: "javascript" },
         ],
-        author: { _id: "3", name: "Bob Smith", image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg" },
+        author: {
+            _id: "3",
+            name: "Bob Smith",
+            image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
+        },
         upvotes: 8,
         answers: 2,
         views: 75,
         createdAt: new Date(),
     },
 ];
+//test error handler
+// const test = async () => {
+//     try {
+//         throw new ValidationError({
+//             title: ["required"],
+//             tags: ["Javascript tag is required"],
+//         });
+
+//     } catch (error) {
+//         return handleError(error);
+//     }
+// };
 
 interface SearchParams {
     searchParams: Promise<{ [key: string]: string }>;
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
+    // await test();
+
     const { query = "", filter } = await searchParams;
     const filteredQuestions = questions.filter((question) => {
         const matchesQuery = question.title
