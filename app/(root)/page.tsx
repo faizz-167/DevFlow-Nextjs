@@ -1,4 +1,4 @@
-import { auth, signOut } from "@/auth";
+import { auth } from "@/auth";
 import QuestioCard from "@/components/cards/QuestioCard";
 import HomeFilter from "@/components/filter/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
@@ -83,6 +83,8 @@ interface SearchParams {
 const Home = async ({ searchParams }: SearchParams) => {
     // const users = await test();
     // console.log(users);
+    const session = await auth();
+    console.log("Session:", session);
 
     const { query = "", filter } = await searchParams;
     const filteredQuestions = questions.filter((question) => {
