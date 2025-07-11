@@ -11,12 +11,12 @@ export const sidebarLinks = [
     },
     {
         imgURL: "/icons/star.svg",
-        route: "/collections",
+        route: "/collection",
         label: "Collections",
     },
     {
         imgURL: "/icons/suitcase.svg",
-        route: "/find-jobs",
+        route: "/jobs",
         label: "Find Jobs",
     },
     {
@@ -31,7 +31,7 @@ export const sidebarLinks = [
     },
     {
         imgURL: "/icons/question.svg",
-        route: "/ask-a-question",
+        route: "/ask-question",
         label: "Ask a question",
     },
 ];
