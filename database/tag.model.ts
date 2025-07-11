@@ -20,4 +20,4 @@ const TagSchema = new Schema<ITag>(
     { timestamps: true }
 );
 
-export const Question = models.Tag || model<ITag>("Tag", TagSchema);
+export const Tag = models.Tag || model<ITag>("Tag", TagSchema);

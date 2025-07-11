@@ -1,9 +1,10 @@
-import ROUTES from "@/constants/routes";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Avatar } from "./ui/avatar";
-import Image from "next/image";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+
+import ROUTES from "@/constants/routes";
+
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 interface Props {
     id: string;
@@ -19,6 +20,7 @@ const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
         .join("")
         .toUpperCase()
         .slice(0, 2);
+
     return (
         <Link href={ROUTES.PROFILE(id)}>
             <Avatar className={className}>

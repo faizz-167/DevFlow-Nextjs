@@ -32,4 +32,4 @@ const VoteSchema = new Schema<IVote>(
     { timestamps: true }
 );
 
-export const Question = models.Vote || model<IVote>("Vote", VoteSchema);
+export const Vote = models.Vote || model<IVote>("Vote", VoteSchema);

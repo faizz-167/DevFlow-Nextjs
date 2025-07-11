@@ -18,4 +18,4 @@ const CollectionSchema = new Schema<ICollection>({
     }
 }, { timestamps: true });
 
-export const Question = models.Collection || model<ICollection>("Collection", CollectionSchema);
+export const Collection = models.Collection || model<ICollection>("Collection", CollectionSchema);

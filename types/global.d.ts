@@ -1,39 +1,46 @@
 import { NextResponse } from "next/server";
 
-interface Tags {
-    _id: string;
-    name: string;
-}
+declare global {
+    interface Tags {
+        _id: string;
+        name: string;
+    }
 
-interface Author {
-    _id: string;
-    name: string;
-    image: string;
-}
+    interface Author {
+        _id: string;
+        name: string;
+        image: string;
+    }
 
-interface Question {
-    _id: string;
-    title: string;
-    tags: Tags[];
-    author: Author;
-    createdAt: Date;
-    upvotes: number;
-    answers: number;
-    views: number;
-}
+    interface Question {
+        _id: string;
+        title: string;
+        tags: Tags[];
+        author: Author;
+        createdAt: Date;
+        upvotes: number;
+        answers: number;
+        views: number;
+    }
 
-type ActionResponse<T = null> = {
-    success: boolean;
-    data?: T;
-    error?: {
-        message: string;
-        errors?: Record<string, string[]>;
+    type ActionResponse<T = null> = {
+        success: boolean;
+        data?: T;
+        error?: {
+            message: string;
+            errors?: Record<string, string[]>;
+        };
+        status?: number;
     };
-    status?: number;
-};
 
-type SuccessResponse<T = null> = ActionResponse<T> & { success: true; };
-type ErrorResponse = ActionResponse<undefined> & { success: false; };
+    type SuccessResponse<T = null> = ActionResponse<T> & { success: true };
+    type ErrorResponse = ActionResponse<undefined> & { success: false };
+
+    interface RouteParams {
+        params: Promise<Record<string, string>>;
+        searchParams: Promise<Record<string, string>>;
+    }
+}
 
 type APIErrorResponse = NextResponse<ErrorResponse>;
 type APIResponse<T = null> = NextResponse<SuccessResponse<T> | ErrorResponse>;

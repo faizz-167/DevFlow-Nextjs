@@ -4,7 +4,7 @@ export interface ITagQuestion {
     tag: Types.ObjectId;
     question: Types.ObjectId;
 }
- export interface ITagQuestionDoc extends ITagQuestion, Document {}
+export interface ITagQuestionDoc extends ITagQuestion, Document {}
 const TagQuestionSchema = new Schema<ITagQuestion>(
     {
         tag: {
@@ -21,5 +21,5 @@ const TagQuestionSchema = new Schema<ITagQuestion>(
     { timestamps: true }
 );
 
-export const Question =
+export const TagQuestion =
     models.TagQuestion || model<ITagQuestion>("TagQuestion", TagQuestionSchema);

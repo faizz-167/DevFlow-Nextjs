@@ -31,5 +31,5 @@ const InteractionSchema = new Schema<IInteraction>(
     { timestamps: true }
 );
 
-export const Question =
+export const Interaction =
     models.Interaction || model<IInteraction>("Interaction", InteractionSchema);
