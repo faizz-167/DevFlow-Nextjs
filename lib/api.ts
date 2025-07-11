@@ -60,6 +60,8 @@ export const api = {
                 method: "POST",
                 body: JSON.stringify({ providerAccountId }),
             }),
+        getByUserId: (userId: string) =>
+            fetchHandler(`${API_BASE_URL}/accounts/user/${userId}`),
         create: (accountData: Partial<IAccount>) =>
             fetchHandler(`${API_BASE_URL}/accounts`, {
                 method: "POST",

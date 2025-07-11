@@ -1,7 +1,7 @@
 "use server";
 
 import { ZodError, ZodSchema } from "zod";
-import { UnauthorizedError, ValidationError } from "../http=errors";
+import { UnauthorizedError, ValidationError } from "../http-errors";
 import { Session } from "next-auth";
 import { auth } from "@/auth";
 import dbConnect from "../mongoose";
@@ -12,7 +12,11 @@ type ActionOptions<T> = {
     authorize?: boolean;
 };
 
-async function action<T>({ params, schema, authorize }: ActionOptions<T>) {
+async function action<T>({
+    params,
+    schema,
+    authorize = false,
+}: ActionOptions<T>) {
     if (schema && params) {
         try {
             schema.parse(params);

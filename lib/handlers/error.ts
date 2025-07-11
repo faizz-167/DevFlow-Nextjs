@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { RequestError, ValidationError } from "../http=errors";
+import { RequestError, ValidationError } from "../http-errors";
 import { ZodError } from "zod";
 import logger from "../logger";
 

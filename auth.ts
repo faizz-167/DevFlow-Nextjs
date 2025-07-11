@@ -4,9 +4,88 @@ import Google from "next-auth/providers/google";
 import { api } from "./lib/api";
 import { ActionResponse } from "./types/global";
 import { IAccountDoc } from "./database/account.model";
+import { SignInSchema } from "./lib/validation";
+import { IUserDoc } from "./database/user.model";
+import bcrypt from "bcryptjs";
+import Credentials from "next-auth/providers/credentials";
+import { Types } from "mongoose";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    providers: [GitHub, Google],
+    providers: [
+        GitHub,
+        Google,
+        Credentials({
+            async authorize(credentials) {
+                const validatedFields = SignInSchema.safeParse(credentials);
+                if (!validatedFields.success) {
+                    return null;
+                }
+
+                const { email, password } = validatedFields.data;
+
+                try {
+                    // First, get the user by email
+                    const userResponse = await api.users.getByEmail(email);
+
+                    if (
+                        !userResponse ||
+                        !userResponse.success ||
+                        !userResponse.data
+                    ) {
+                        console.log("User not found for email:", email);
+                        return null;
+                    }
+
+                    const existingUser = userResponse.data as IUserDoc;
+
+                    // Get the account associated with this user (credentials provider)
+                    const accountResponse = await api.accounts.getByUserId(
+                        (existingUser._id as Types.ObjectId).toString()
+                    );
+
+                    if (
+                        !accountResponse ||
+                        !accountResponse.success ||
+                        !accountResponse.data
+                    ) {
+                        console.log(
+                            "Account not found for user:",
+                            existingUser._id
+                        );
+                        return null;
+                    }
+
+                    const existingAccount = accountResponse.data as IAccountDoc;
+
+                    // Verify password
+                    if (!existingAccount.password) {
+                        console.log("No password found for account");
+                        return null;
+                    }
+
+                    const isValidPassword = await bcrypt.compare(
+                        password,
+                        existingAccount.password
+                    );
+
+                    if (!isValidPassword) {
+                        console.log("Invalid password for user:", email);
+                        return null;
+                    }
+
+                    return {
+                        id: (existingUser._id as Types.ObjectId).toString(),
+                        name: existingUser.name,
+                        email: existingUser.email,
+                        image: existingUser.image || null,
+                    };
+                } catch (error) {
+                    console.error("Auth error:", error);
+                    return null;
+                }
+            },
+        }),
+    ],
     callbacks: {
         async session({ session, token }) {
             session.user.id = token.sub as string; // Ensure user ID is set in session

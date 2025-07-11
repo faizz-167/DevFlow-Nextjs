@@ -1,7 +1,7 @@
 import Account from "@/database/account.model";
 import User from "@/database/user.model";
 import handleError from "@/lib/handlers/error";
-import { ValidationError } from "@/lib/http=errors";
+import { ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchema } from "@/lib/validation";
 import { APIErrorResponse } from "@/types/global";
