@@ -1,13 +1,14 @@
 "use server";
 import { ActionResponse, ErrorResponse } from "@/types/global";
 import action from "../handlers/action";
-import { SignUpSchema } from "../validation";
+import { SignInSchema, SignUpSchema } from "../validation";
 import handleError from "../handlers/error";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import User from "@/database/user.model";
 import Account from "@/database/account.model";
 import { signIn } from "@/auth";
+import { NotFoundError } from "../http-errors";
 
 export async function signUpWithCredentials(
     params: SignUpWithCredentialsParams
@@ -66,5 +67,49 @@ export async function signUpWithCredentials(
         return handleError(error) as ErrorResponse;
     } finally {
         await session.endSession();
+    }
+}
+export async function signInWithCredentials(
+    params: Pick<SignUpWithCredentialsParams, "email" | "password">
+): Promise<ActionResponse> {
+    const validationResult = await action({
+        params,
+        schema: SignInSchema,
+    });
+    if (validationResult instanceof Error) {
+        return handleError(validationResult) as ErrorResponse;
+    }
+
+    const { email, password } = validationResult.params!;
+
+    try {
+        const exsistingUser = await User.findOne({ email });
+        if (!exsistingUser) {
+            throw new NotFoundError("User");
+        }
+        const existingAccount = await Account.findOne({
+            provider: "credentials",
+            providerAccountId: email,
+        });
+        if (!existingAccount) {
+            throw new NotFoundError("Account");
+        }
+
+        const passwordMatch = await bcrypt.compare(
+            password,
+            existingAccount.password!
+        );
+        if (!passwordMatch) {
+            throw new Error("Invalid password.");
+        }
+        await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+        });
+
+        return { success: true };
+    } catch (error) {
+        return handleError(error) as ErrorResponse;
     }
 }
