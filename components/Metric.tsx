@@ -4,36 +4,38 @@ import React from "react";
 
 interface Props {
     imgUrl: string;
-    title: string;
-    value: String | number;
-    textStyles: string;
-    href?: string;
     alt: string;
-    isAuthor?: boolean;
+    value: string | number;
+    title: string;
+    href?: string;
+    textStyles: string;
     imgStyles?: string;
+    isAuthor?: boolean;
 }
 
 const Metric = ({
     imgUrl,
-    title,
-    value,
-    textStyles,
-    href,
     alt,
-    isAuthor,
+    value,
+    title,
+    href,
+    textStyles,
     imgStyles,
+    isAuthor,
 }: Props) => {
     const metricContent = (
         <>
             <Image
                 src={imgUrl}
-                alt={alt}
                 width={16}
                 height={16}
+                alt={alt}
                 className={`rounded-full object-contain ${imgStyles}`}
             />
+
             <p className={`${textStyles} flex items-center gap-1`}>
                 {value}
+
                 <span
                     className={`small-regular line-clamp-1 ${isAuthor ? "max-sm:hidden" : ""}`}
                 >
@@ -42,6 +44,7 @@ const Metric = ({
             </p>
         </>
     );
+
     return href ? (
         <Link href={href} className="flex-center gap-1">
             {metricContent}

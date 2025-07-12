@@ -1,72 +1,10 @@
-import { auth } from "@/auth";
 import QuestioCard from "@/components/cards/QuestioCard";
 import HomeFilter from "@/components/filter/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { api } from "@/lib/api";
-import handleError from "@/lib/handlers/error";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
-
-const questions = [
-    {
-        _id: "1",
-        title: "What is Next.js?",
-        description:
-            "Next.js is a React framework for building server-side rendered applications.",
-        tags: [
-            { _id: "1", name: "react" },
-            { _id: "2", name: "nextjs" },
-        ],
-        author: {
-            _id: "1",
-            name: "John Doe",
-            image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-        },
-        upvotes: 10,
-        answers: 5,
-        views: 100,
-        createdAt: new Date(),
-    },
-    {
-        _id: "2",
-        title: "How to use React Hooks?",
-        description:
-            "React Hooks are functions that let you use state and other React features without writing a class.",
-        tags: [
-            { _id: "3", name: "react" },
-            { _id: "4", name: "hooks" },
-        ],
-        author: {
-            _id: "2",
-            name: "Jane Doe",
-            image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-        },
-        upvotes: 5,
-        answers: 3,
-        views: 50,
-        createdAt: new Date("2023-11-01"),
-    },
-    {
-        _id: "3",
-        title: "What is TypeScript?",
-        description:
-            "TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.",
-        tags: [
-            { _id: "5", name: "typescript" },
-            { _id: "6", name: "javascript" },
-        ],
-        author: {
-            _id: "3",
-            name: "Bob Smith",
-            image: "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-        },
-        upvotes: 8,
-        answers: 2,
-        views: 75,
-        createdAt: new Date(),
-    },
-];
 
 // const test = async () => {
 //     try {
@@ -83,19 +21,26 @@ interface SearchParams {
 const Home = async ({ searchParams }: SearchParams) => {
     // const users = await test();
     // console.log(users);
-    const { query = "", filter } = await searchParams;
-    const filteredQuestions = questions.filter((question) => {
-        const matchesQuery = question.title
-            .toLowerCase()
-            .includes(query?.toLowerCase());
-
-        const matchesFilter = filter
-            ? question.tags.some(
-                  (tag) => tag.name.toLowerCase() === filter.toLowerCase()
-              )
-            : true;
-        return matchesQuery && matchesFilter;
+    const { page, pageSize, query, filter } = await searchParams;
+    const { success, data, error } = await getQuestions({
+        page: Number(page) || 1,
+        pageSize: Number(pageSize) || 10,
+        query: query || "",
+        filter: filter || "",
     });
+    const { questions } = data || {};
+    // const filteredQuestions = questions.filter((question) => {
+    //     const matchesQuery = question.title
+    //         .toLowerCase()
+    //         .includes(query?.toLowerCase());
+
+    //     const matchesFilter = filter
+    //         ? question.tags.some(
+    //               (tag) => tag.name.toLowerCase() === filter.toLowerCase()
+    //           )
+    //         : true;
+    //     return matchesQuery && matchesFilter;
+    // });
 
     //const {data} = await axios.get("/api/questions", {query: {search: query}});  -- fetch from data base
 
@@ -119,11 +64,28 @@ const Home = async ({ searchParams }: SearchParams) => {
                 />
             </section>
             <HomeFilter />
-            <div className="mt-10 flex w-full flex-col gap-6">
-                {filteredQuestions.map((q) => (
-                    <QuestioCard key={q._id} question={q} />
-                ))}
-            </div>
+            {success ? (
+                <div className="mt-10 flex w-full flex-col gap-6">
+                    {questions && questions.length > 0 ? (
+                        questions.map((q) => (
+                            <QuestioCard key={q._id} question={q} />
+                        ))
+                    ) : (
+                        <div className="mt-10 flex w-full items-center justify-center">
+                            <p className="body-medium text-dark400_light700">
+                                No questions found
+                            </p>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="mt-10 flex w-full items-center justify-center">
+                    <p className="body-medium text-dark400_light700">
+                        {error?.message ||
+                            "An error occurred while fetching questions."}
+                    </p>
+                </div>
+            )}
         </>
     );
 };

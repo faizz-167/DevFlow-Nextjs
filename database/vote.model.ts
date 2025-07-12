@@ -6,7 +6,7 @@ export interface IVote {
     actionType: "question" | "answer";
     voteType: "upvote" | "downvote";
 }
- export interface IVoteDoc extends IVote, Document {}
+export interface IVoteDoc extends IVote, Document {}
 const VoteSchema = new Schema<IVote>(
     {
         author: {
@@ -32,4 +32,6 @@ const VoteSchema = new Schema<IVote>(
     { timestamps: true }
 );
 
-export const Vote = models.Vote || model<IVote>("Vote", VoteSchema);
+const Vote = models.Vote || model<IVote>("Vote", VoteSchema);
+
+export default Vote;

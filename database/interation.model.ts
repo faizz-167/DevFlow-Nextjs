@@ -6,7 +6,7 @@ export interface IInteraction {
     actionId: Types.ObjectId;
     actionType: "question" | "answer";
 }
- export interface IInteractionDoc extends IInteraction, Document {}
+export interface IInteractionDoc extends IInteraction, Document {}
 const InteractionSchema = new Schema<IInteraction>(
     {
         user: {
@@ -31,5 +31,7 @@ const InteractionSchema = new Schema<IInteraction>(
     { timestamps: true }
 );
 
-export const Interaction =
+const Interaction =
     models.Interaction || model<IInteraction>("Interaction", InteractionSchema);
+
+export default Interaction;

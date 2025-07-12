@@ -36,4 +36,5 @@ const AnswerSchema = new Schema<IAnswer>(
     { timestamps: true }
 );
 
-export const Answer = models.Answer || model<IAnswer>("Answer", AnswerSchema);
+const Answer = models.Answer || model<IAnswer>("Answer", AnswerSchema);
+export default Answer;
