@@ -1,4 +1,4 @@
-import { nameMap } from "@/constants/nameMap";
+import { nameMap, techDescriptionMap } from "@/constants/nameMap";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { formatDistanceToNow } from "date-fns";
@@ -13,6 +13,13 @@ export const getDeviconClassName = (name: string) => {
     return nameMap[normalizeName]
         ? `${nameMap[normalizeName]} colored`
         : "devicon-devicon-plain";
+};
+
+export const getTechDescription = (techName: string) => {
+    const normalizedTechName = techName.replace(/[ .]/g, "").toLowerCase();
+    return techDescriptionMap[normalizedTechName]
+        ? techDescriptionMap[normalizedTechName]
+        : `${techName} is a technology or tool widely used in web development, providing valuable features and capabilities.`;
 };
 
 export const getTimeStamp = (createdAt: Date) => {
