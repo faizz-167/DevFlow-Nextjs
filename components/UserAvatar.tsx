@@ -11,9 +11,16 @@ interface Props {
     name: string;
     imageUrl?: string | null;
     className?: string;
+    fallbackClassName?: string;
 }
 
-const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
+const UserAvatar = ({
+    id,
+    name,
+    imageUrl,
+    className = "h-9 w-9",
+    fallbackClassName,
+}: Props) => {
     const initials = name
         .split(" ")
         .map((word: string) => word[0])
@@ -34,7 +41,9 @@ const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
                         quality={100}
                     />
                 ) : (
-                    <AvatarFallback className="primary-gradient font-space-grotesk font-bold tracking-wider text-white">
+                    <AvatarFallback
+                        className={`${fallbackClassName} primary-gradient font-space-grotesk font-bold tracking-wider text-white`}
+                    >
                         {initials}
                     </AvatarFallback>
                 )}

@@ -200,7 +200,9 @@ export async function getQuestion(
     const { questionId } = validationResult.params!;
 
     try {
-        const question = await Question.findById(questionId).populate("tags");
+        const question = await Question.findById(questionId)
+            .populate("tags")
+            .populate("author", "_id name image");
         if (!question) {
             throw new NotFoundError("Question");
         }
@@ -274,7 +276,7 @@ export async function getQuestions(
             .populate("tags", "name")
             .populate("author", "name image")
             .lean()
-            .sort(sortCriteria) 
+            .sort(sortCriteria)
             .skip(skip)
             .limit(limit);
 
