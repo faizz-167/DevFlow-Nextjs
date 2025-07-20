@@ -14,6 +14,8 @@ import Tag, { ITagDoc } from "@/database/tag.model";
 import TagQuestion, { ITagQuestion } from "@/database/tag-question.model";
 import Question, { IQuestionDoc } from "@/database/question.model";
 import { NotFoundError } from "../http-errors";
+import ROUTES from "@/constants/routes";
+import { revalidatePath } from "next/cache";
 export async function createQuestion(
     params: CreateQuestionParams
 ): Promise<ActionResponse<Question>> {
@@ -300,8 +302,8 @@ export async function incrementViews(
     const validationResult = await action({
         params,
         schema: IncrementViewsSchema,
-        authorize: true,
     });
+
     if (validationResult instanceof Error) {
         return handleError(validationResult) as ErrorResponse;
     }
@@ -310,11 +312,17 @@ export async function incrementViews(
 
     try {
         const question = await Question.findById(questionId);
+
         if (!question) {
-            throw new NotFoundError("Question");
+            throw new Error("Question not found");
         }
+
         question.views += 1;
+
         await question.save();
+
+        revalidatePath(ROUTES.QUESTION(questionId));
+
         return {
             success: true,
             data: { views: question.views },
