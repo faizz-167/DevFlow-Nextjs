@@ -14,9 +14,6 @@ import Tag, { ITagDoc } from "@/database/tag.model";
 import TagQuestion, { ITagQuestion } from "@/database/tag-question.model";
 import Question, { IQuestionDoc } from "@/database/question.model";
 import { NotFoundError } from "../http-errors";
-import { revalidatePath } from "next/cache";
-import ROUTES from "@/constants/routes";
-
 export async function createQuestion(
     params: CreateQuestionParams
 ): Promise<ActionResponse<Question>> {
@@ -318,7 +315,6 @@ export async function incrementViews(
         }
         question.views += 1;
         await question.save();
-        revalidatePath(ROUTES.QUESTION(questionId));
         return {
             success: true,
             data: { views: question.views },
