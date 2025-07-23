@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import ROUTES from "@/constants/routes";
-import { ActionResponse } from "@/types/global";
+import  ActionResponse  from "@/types/global";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
