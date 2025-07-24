@@ -63,3 +63,11 @@ export async function createAnswer(
         await session.endSession();
     }
 }
+
+export async function getAnswers(
+    params: GetAnswerParams
+): Promise<ActionResponse<{
+    answers: Answer[];
+    isNext: boolean;
+    totalAnswers: number;
+}>> {}
