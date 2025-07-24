@@ -9,7 +9,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                 <div className="flex items-center justify-between gap-2">
                     <div className="space-y-2.5">
                         <h1 className="h2-bold text-dark100_light900">
-                            Join DevFlow
+                            Join Devinsight
                         </h1>
                         <p className="paragraph-regular text-dark500_light400">
                             To get your questions answered
@@ -17,7 +17,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
                     </div>
                     <Image
                         src="images/site-logo.svg"
-                        alt="DevFlow Logo"
+                        alt="Devinsight Logo"
                         width={50}
                         height={50}
                         className="object-contain"
