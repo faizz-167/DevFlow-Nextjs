@@ -13,19 +13,21 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { AnswerSchema } from "@/lib/validation";
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { toast } from "sonner";
 
 const Editor = dynamic(() => import("@/components/editor"), {
     // Make sure we turn SSR off
     ssr: false,
 });
 
-const AnswerForm = () => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
+const AnswerForm = ({ questionId }: { questionId: string }) => {
+    const [isAnswer, startAnsweringTransition] = useTransition();
     const [isAiSubmitting, setIsAiSubmitting] = useState(false);
     const editorRef = useRef<MDXEditorMethods>(null);
     const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -36,7 +38,23 @@ const AnswerForm = () => {
     });
 
     const handleSubmit = async (values: z.infer<typeof AnswerSchema>) => {
-        console.log("Submitting answer:", values);
+        startAnsweringTransition(async () => {
+            const result = await createAnswer({
+                content: values.content,
+                questionId,
+            });
+            if (result.success) {
+                form.reset();
+                toast.success("Success", {
+                    description: "Your answer has been posted successfully.",
+                });
+            } else {
+                toast.error("Error", {
+                    description:
+                        result.error?.message || "Failed to post your answer.",
+                });
+            }
+        });
     };
 
     return (
@@ -95,7 +113,7 @@ const AnswerForm = () => {
                             type="submit"
                             className="w-fit primary-gradient"
                         >
-                            {isSubmitting ? (
+                            {isAnswer ? (
                                 <>
                                     {" "}
                                     <Loader2 className="mr-2 animate-spin" />{" "}

@@ -5,7 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "sonner";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -18,9 +18,9 @@ const spaceGrotesk = SpaceGrotesk({
 });
 
 export const metadata: Metadata = {
-    title: "Devflow",
+    title: "DevInsight",
     description:
-        "Devflow is a platform for developers to share and discover code snippets, tutorials, and resources.",
+        "DevInsight is a platform for developers to share and discover code snippets, tutorials, and resources.",
     icons: {
         icon: "/images/site-logo.svg",
     },
