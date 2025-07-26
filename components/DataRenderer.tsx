@@ -14,7 +14,7 @@ interface Props<T> {
     empty: {
         title: string;
         message: string;
-        button: {
+        button?: {
             text: string;
             href: string;
         };
