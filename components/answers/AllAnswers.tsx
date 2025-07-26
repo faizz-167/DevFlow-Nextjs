@@ -1,7 +1,6 @@
 import React from "react";
 import DataRenderer from "../DataRenderer";
 import { EMPTY_ANSWERS } from "@/constants/states";
-import { P } from "pino";
 import AnswerCard from "../cards/AnswerCard";
 
 interface Props extends ActionResponse<Answer[]> {

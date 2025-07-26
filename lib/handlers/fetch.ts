@@ -1,4 +1,3 @@
-import { ActionResponse } from "@/types/global";
 import logger from "../logger";
 import handleError from "./error";
 import { RequestError } from "../http-errors";
@@ -16,7 +15,7 @@ export async function fetchHandler<T>(
     options: FetchOptions = {}
 ): Promise<ActionResponse<T>> {
     const {
-        timeout = 5000,
+        timeout = 100000,
         headers: customHeaders = {},
         ...restOptions
     } = options;
