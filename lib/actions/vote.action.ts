@@ -10,6 +10,8 @@ import {
     UpdateVoteCountSchema,
 } from "../validation";
 import mongoose, { ClientSession } from "mongoose";
+import { revalidatePath } from "next/cache";
+import ROUTES from "@/constants/routes";
 
 export async function updateVoteCount(
     params: UpdateVoteCountParams,
@@ -59,7 +61,7 @@ export async function createVote(
     const { voteType, targetId, targetType } = validationResult.params!;
     const userId = validationResult?.session?.user?.id;
     if (!userId) {
-        handleError(new UnauthorizedError()) as ErrorResponse;
+        return handleError(new UnauthorizedError()) as ErrorResponse;
     }
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -94,22 +96,42 @@ export async function createVote(
                     {
                         targetId,
                         targetType,
-                        voteType: exsistingVote.voteType,
+                        voteType: exsistingVote.voteType, // This should decrement the old vote
+                        change: -1, // Change this to -1
+                    },
+                    session
+                );
+                await updateVoteCount(
+                    {
+                        targetId,
+                        targetType,
+                        voteType, // This should increment the new vote
                         change: 1,
                     },
                     session
                 );
             }
         } else {
-            await Vote.create([{ targetId, targetType, change: 1, voteType }], {
-                session,
-            });
+            await Vote.create(
+                [
+                    {
+                        author: userId,
+                        actionId: targetId,
+                        actionType: targetType,
+                        voteType,
+                    },
+                ],
+                {
+                    session,
+                }
+            );
             await updateVoteCount(
                 { targetId, targetType, voteType, change: 1 },
                 session
             );
         }
         await session.commitTransaction();
+        revalidatePath(ROUTES.QUESTION(targetId));
         return { success: true };
     } catch (error) {
         await session.abortTransaction();
