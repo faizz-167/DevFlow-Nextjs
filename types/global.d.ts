@@ -66,6 +66,7 @@ interface User {
     name: string;
     email: string;
     image?: string;
+    username: string;
     bio?: string;
     location?: string;
     portfolio?: string;
