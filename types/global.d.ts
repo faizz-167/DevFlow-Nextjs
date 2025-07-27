@@ -60,3 +60,14 @@ interface Answer {
     downvotes: number;
     createdAt: Date;
 }
+
+interface User {
+    _id: string;
+    name: string;
+    email: string;
+    image?: string;
+    bio?: string;
+    location?: string;
+    portfolio?: string;
+    reputation?: number;
+}

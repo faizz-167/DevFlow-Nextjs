@@ -224,7 +224,7 @@ export async function getQuestions(
     const validationResult = await action({
         params,
         schema: PaginatedSearchParamsSchema,
-        authorize: true,
+        authorize: false,
     });
 
     if (validationResult instanceof Error) {

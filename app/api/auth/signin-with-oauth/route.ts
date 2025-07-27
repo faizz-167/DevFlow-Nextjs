@@ -4,7 +4,6 @@ import handleError from "@/lib/handlers/error";
 import { ValidationError } from "@/lib/http-errors";
 import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchema } from "@/lib/validation";
-import { APIErrorResponse } from "@/types/global";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import slugify from "slugify";
