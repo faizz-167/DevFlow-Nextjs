@@ -72,3 +72,9 @@ interface User {
     portfolio?: string;
     reputation?: number;
 }
+
+interface Collections {
+    _id: string;
+    author: string | Author;
+    questions: Question[];
+}
