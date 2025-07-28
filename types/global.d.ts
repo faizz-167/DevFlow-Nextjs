@@ -20,7 +20,6 @@ interface Question {
     downvotes: number;
     answers: number;
     views: number;
-    createdAt: Date;
 }
 
 type ActionResponse<T = null> = {
@@ -76,5 +75,5 @@ interface User {
 interface Collections {
     _id: string;
     author: string | Author;
-    questions: Question[];
+    question: Question;
 }
