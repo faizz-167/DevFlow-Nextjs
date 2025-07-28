@@ -1,27 +1,29 @@
+import ROUTES from "./routes";
+
 export const sidebarLinks = [
     {
         imgURL: "/icons/home.svg",
-        route: "/",
+        route: ROUTES.HOME as string,
         label: "Home",
     },
     {
         imgURL: "/icons/users.svg",
-        route: "/community",
+        route: ROUTES.COMMUNITY as string,
         label: "Community",
     },
     {
         imgURL: "/icons/star.svg",
-        route: "/collection",
+        route: ROUTES.COLLECTION as string,
         label: "Collections",
     },
     {
         imgURL: "/icons/suitcase.svg",
-        route: "/jobs",
+        route: ROUTES.JOBS as string,
         label: "Find Jobs",
     },
     {
         imgURL: "/icons/tag.svg",
-        route: "/tags",
+        route: ROUTES.TAGS as string,
         label: "Tags",
     },
     {
@@ -31,7 +33,7 @@ export const sidebarLinks = [
     },
     {
         imgURL: "/icons/question.svg",
-        route: "/ask-question",
+        route: ROUTES.ASK_QUESTION as string,
         label: "Ask a question",
     },
 ];

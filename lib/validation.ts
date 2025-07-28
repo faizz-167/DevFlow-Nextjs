@@ -207,4 +207,8 @@ export const UpdateVoteCountSchema = CreateVoteSchema.extend({
 export const hasVotedSchema = CreateVoteSchema.pick({
     targetId: true,
     targetType: true,
-})
+});
+
+export const CollectionBaseScheme = z.object({
+    questionId: z.string().min(1, { message: "Question ID is required." }),
+});
