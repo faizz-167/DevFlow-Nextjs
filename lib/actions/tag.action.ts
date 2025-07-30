@@ -130,3 +130,16 @@ export const getTagQuestions = async (
         return handleError(error) as ErrorResponse;
     }
 };
+
+export const getTopTags = async (): Promise<ActionResponse<Tag[]>> => {
+    try {
+        const tags = await Tag.find().sort({ questions: -1 }).limit(5);
+
+        return {
+            success: true,
+            data: JSON.parse(JSON.stringify(tags)),
+        };
+    } catch (error) {
+        return handleError(error) as ErrorResponse;
+    }
+};

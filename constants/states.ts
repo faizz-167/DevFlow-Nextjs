@@ -28,6 +28,11 @@ export const EMPTY_QUESTION = {
         href: ROUTES.ASK_QUESTION,
     },
 };
+export const EMPTY_HOT_QUESTION = {
+    title: "Ahh, No Questions Yet!",
+    message:
+        "The question board is empty. Maybe it’s waiting for your brilliant question to get things rolling",
+};
 
 export const EMPTY_TAGS = {
     title: "No Tags Found",
