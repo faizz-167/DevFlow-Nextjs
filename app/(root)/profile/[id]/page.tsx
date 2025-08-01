@@ -1,16 +1,29 @@
 import { auth } from "@/auth";
 import ProfileLink from "@/components/user/ProfileLink";
 import UserAvatar from "@/components/UserAvatar";
-import { getUser } from "@/lib/actions/user.action";
+import {
+    getUser,
+    getUserAnswers,
+    getUserQuestions,
+    getUserTopTags,
+} from "@/lib/actions/user.action";
 import { notFound } from "next/navigation";
 import React from "react";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Stats from "@/components/user/Stats";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DataRenderer from "@/components/DataRenderer";
+import { EMPTY_ANSWERS, EMPTY_QUESTION, EMPTY_TAGS } from "@/constants/states";
+import QuestionCard from "@/components/cards/QuestioCard";
+import Pagination from "@/components/Pagination";
+import AnswerCard from "@/components/cards/AnswerCard";
+import TagCard from "@/components/cards/TagCard";
 
-const Profile = async ({ params }: RouteParams) => {
+const Profile = async ({ params, searchParams }: RouteParams) => {
     const { id } = await params;
+    const { page, pageSize } = await searchParams;
     if (!id) notFound();
 
     const loggedInUser = await auth();
@@ -26,6 +39,38 @@ const Profile = async ({ params }: RouteParams) => {
         );
 
     const { user, totalQuestions, totalAnswers } = data!;
+    const {
+        success: userQuestionsSuccess,
+        data: userQuestionsData,
+        error: userQuestionsError,
+    } = await getUserQuestions({
+        userId: id,
+        page: Number(page) || 1,
+        pageSize: Number(pageSize) || 10,
+    });
+
+    const {
+        success: userAnswersSuccess,
+        data: userAnswersData,
+        error: userAnswersError,
+    } = await getUserAnswers({
+        userId: id,
+        page: Number(page) || 1,
+        pageSize: Number(pageSize) || 10,
+    });
+
+    const {
+        success: userTagsSuccess,
+        data: userTagsData,
+        error: userTagsError,
+    } = await getUserTopTags({
+        userId: id,
+    });
+
+    const { questions, isNext: hasMoreQuestions } = userQuestionsData!;
+    const { answers, isNext: hasMoreAnswers } = userAnswersData!;
+    const { tags: userTags } = userTagsData!;
+
     const {
         _id,
         name,
@@ -101,6 +146,99 @@ const Profile = async ({ params }: RouteParams) => {
                     BRONZE: 0,
                 }}
             />
+
+            <section className="mt-10 flex gap-10">
+                <Tabs defaultValue="top-posts" className="flex-[2]">
+                    <TabsList className="background-light800_dark400 min-h-[42px] p-1">
+                        <TabsTrigger value="top-posts" className="tab">
+                            Top-Posts
+                        </TabsTrigger>
+                        <TabsTrigger value="answers" className="tab">
+                            Answers
+                        </TabsTrigger>
+                    </TabsList>
+                    <TabsContent
+                        value="top-posts"
+                        className="mt-5 flex w-full flex-col gap-6"
+                    >
+                        <DataRenderer
+                            success={userQuestionsSuccess}
+                            error={userQuestionsError}
+                            data={questions}
+                            empty={EMPTY_QUESTION}
+                            render={(questions) => (
+                                <div className="flex w-full flex-col gap-6">
+                                    {questions.map((question) => (
+                                        <QuestionCard
+                                            key={question._id}
+                                            question={question}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        />
+                        <Pagination
+                            page={Number(page) || 1}
+                            isNext={hasMoreQuestions}
+                        />
+                    </TabsContent>
+                    <TabsContent
+                        value="answers"
+                        className="mt-5 flex w-full flex-col gap-6"
+                    >
+                        <DataRenderer
+                            success={userAnswersSuccess}
+                            error={userAnswersError}
+                            data={answers}
+                            empty={EMPTY_ANSWERS}
+                            render={(answers) => (
+                                <div className="flex w-full flex-col gap-6">
+                                    {answers.map((answer) => (
+                                        <AnswerCard
+                                            key={answer._id}
+                                            {...answer}
+                                            content={answer.content.slice(
+                                                0,
+                                                27
+                                            )}
+                                            showReadMore
+                                            containerClasses="card-wrapper rounded-[10px] px-7 py-9 sm:px-11"
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        />
+                        <Pagination
+                            page={Number(page) || 1}
+                            isNext={hasMoreAnswers || false}
+                        />
+                    </TabsContent>
+                </Tabs>
+                <div className="flex w-full min-w-[250px] flex-col flex-1 max-lg:hidden">
+                    <h3 className="h3-bold text-dark200_light900">Top Tech</h3>
+                    <div className="mt-7 flex flex-col gap-4">
+                        <DataRenderer
+                            success={userTagsSuccess}
+                            error={userTagsError}
+                            data={userTags}
+                            empty={EMPTY_TAGS}
+                            render={(tags) => (
+                                <div className="flex w-full flex-col gap-6">
+                                    {tags.map((tag) => (
+                                        <TagCard
+                                            key={tag._id}
+                                            name={tag.name}
+                                            _id={tag._id}
+                                            questions={tag.count}
+                                            showcount
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        />
+                    </div>
+                </div>
+            </section>
         </>
     );
 };
