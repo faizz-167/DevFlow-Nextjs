@@ -71,10 +71,17 @@ interface User {
     location?: string;
     portfolio?: string;
     reputation?: number;
+    createdAt: Date;
 }
 
 interface Collections {
     _id: string;
     author: string | Author;
     question: Question;
+}
+
+interface BadgeCounts {
+    GOLD: number;
+    SILVER: number;
+    BRONZE: number;
 }
