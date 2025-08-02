@@ -13,6 +13,8 @@ import { Question, Vote } from "@/database";
 import { NotFoundError, UnauthorizedError } from "../http-errors";
 import { revalidatePath } from "next/cache";
 import ROUTES from "@/constants/routes";
+import { after } from "next/server";
+import { createInteraction } from "./interaction.action";
 
 export async function createAnswer(
     params: CreateAnswerParams
@@ -53,6 +55,14 @@ export async function createAnswer(
 
         question.answers += 1;
         await question.save({ session });
+        after(async () => {
+            await createInteraction({
+                action: "post",
+                actionId: newAnswer._id.toString(),
+                actionTarget: "answer",
+                authorId: userId as string,
+            });
+        });
         await session.commitTransaction();
         revalidatePath(ROUTES.QUESTION(questionId));
 
@@ -167,6 +177,14 @@ export async function deleteAnswer(
             { session }
         );
         await Answer.deleteOne({ _id: answerId }).session(session);
+        after(async () => {
+            await createInteraction({
+                action: "post",
+                actionId: answer._id.toString(),
+                actionTarget: "answer",
+                authorId: user?.id as string,
+            });
+        });
         await session.commitTransaction();
         revalidatePath(ROUTES.PROFILE(user?.id as string));
         return { success: true };
