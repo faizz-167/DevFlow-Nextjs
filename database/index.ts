@@ -6,7 +6,7 @@ import Answer from "./answer.model";
 import Tag from "./tag.model";
 import TagQuestion from "./tag-question.model";
 import Vote from "./vote.model";
-import Interaction from "./interation.model";
+import Interaction from "./interaction.model";
 
 export {
     Account,
