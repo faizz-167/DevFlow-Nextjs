@@ -1,4 +1,4 @@
-# DEVFLOW-NEXTJS
+# DEVINSIGHT-NEXTJS
 
 *Empowering Innovation, Accelerating Developer Success*
 
@@ -75,7 +75,7 @@ Build Devflow-Nextjs from the source and install dependencies:
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/faizz-167/Devflow-NextJs](https://github.com/faizz-167/Devflow-NextJs)
+    git clone [https://github.com/faizz-167/Devflow-NextJs](https://github.com/faizz-167/DevInsight-NextJs)
     ```
 2.  **Navigate to the project directory:**
     ```sh
