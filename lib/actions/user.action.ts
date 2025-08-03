@@ -277,23 +277,31 @@ export async function getUserStats(params: GetUserParams): Promise<
             },
         ]);
 
+        // Provide default values when stats are undefined
+        const defaultQuestionStats = { count: 0, upvotes: 0, views: 0 };
+        const defaultAnswerStats = { count: 0, upvotes: 0 };
+
+        const finalQuestionStats = questionStats || defaultQuestionStats;
+        const finalAnswerStats = answerStats || defaultAnswerStats;
+
         const badges = assignBadges({
             criteria: [
-                { type: "ANSWER_COUNT", count: answerStats.count },
-                { type: "QUESTION_COUNT", count: questionStats.count },
+                { type: "ANSWER_COUNT", count: finalAnswerStats.count },
+                { type: "QUESTION_COUNT", count: finalQuestionStats.count },
                 {
                     type: "QUESTION_UPVOTES",
-                    count: questionStats.upvotes + answerStats.upvotes,
+                    count:
+                        finalQuestionStats.upvotes + finalAnswerStats.upvotes,
                 },
-                { type: "TOTAL_VIEWS", count: questionStats.views },
+                { type: "TOTAL_VIEWS", count: finalQuestionStats.views },
             ],
         });
 
         return {
             success: true,
             data: {
-                totalQuestions: questionStats.count,
-                totalAnswers: answerStats.count,
+                totalQuestions: finalQuestionStats.count,
+                totalAnswers: finalAnswerStats.count,
                 badges,
             },
         };
