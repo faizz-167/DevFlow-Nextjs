@@ -28,7 +28,7 @@ export async function generateMetadata({
     params,
 }: RouteParams): Promise<Metadata> {
     const { id } = await params;
-
+    const session = await auth();
     const { success, data } = await getUser({ userId: id });
     const { user } = data!;
 
@@ -39,7 +39,7 @@ export async function generateMetadata({
         };
 
     return {
-        title: user.name,
+        title: user.name == session?.user?.name ? "Your Profile" : user.name,
         description: user.bio?.slice(0, 50) || "No bio available",
     };
 }

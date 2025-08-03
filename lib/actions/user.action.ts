@@ -16,6 +16,7 @@ import { Answer, Question, User } from "@/database";
 import { NotFoundError, UnauthorizedError } from "../http-errors";
 import { assignBadges } from "../utils";
 import { IUserDoc } from "@/database/user.model";
+import { cache } from "react";
 
 export async function getUsers(
     params: PaginatedSearchParams
@@ -77,7 +78,7 @@ export async function getUsers(
     }
 }
 
-export async function getUser(
+export const getUser = cache(async function getUser(
     params: GetUserParams
 ): Promise<
     ActionResponse<{ user: User; totalQuestions: number; totalAnswers: number }>
@@ -112,7 +113,7 @@ export async function getUser(
     } catch (error) {
         return handleError(error) as ErrorResponse;
     }
-}
+});
 
 export async function getUserAnswers(
     params: GetUserAnswersParams
