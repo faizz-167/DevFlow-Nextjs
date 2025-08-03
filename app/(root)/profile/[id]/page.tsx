@@ -21,6 +21,28 @@ import QuestionCard from "@/components/cards/QuestioCard";
 import Pagination from "@/components/Pagination";
 import AnswerCard from "@/components/cards/AnswerCard";
 import TagCard from "@/components/cards/TagCard";
+import { Metadata } from "next";
+import ROUTES from "@/constants/routes";
+
+export async function generateMetadata({
+    params,
+}: RouteParams): Promise<Metadata> {
+    const { id } = await params;
+
+    const { success, data } = await getUser({ userId: id });
+    const { user } = data!;
+
+    if (!success || !user)
+        return {
+            title: "User not found",
+            description: "User not found",
+        };
+
+    return {
+        title: user.name,
+        description: user.bio?.slice(0, 50) || "No bio available",
+    };
+}
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
     const { id } = await params;
@@ -131,7 +153,7 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
                 </div>
                 <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
                     {loggedInUser?.user?.id === id && (
-                        <Link href={`/profile/${id}/edit`}>
+                        <Link href={ROUTES.EDIT_PROFILE(id)}>
                             <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-12 min-w-44 px-4 py-3">
                                 Edit Profile
                             </Button>

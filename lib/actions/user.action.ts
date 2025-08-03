@@ -1,9 +1,11 @@
 "use server";
 
-import { FilterQuery, PipelineStage, Types } from "mongoose";
+import mongoose, { FilterQuery, PipelineStage, Types } from "mongoose";
 import action from "../handlers/action";
 import handleError from "../handlers/error";
+
 import {
+    EditUserProfileSchema,
     GetUserAnswersSchema,
     GetUserQuestionsSchema,
     GetUserSchema,
@@ -11,9 +13,9 @@ import {
     PaginatedSearchParamsSchema,
 } from "../validation";
 import { Answer, Question, User } from "@/database";
-import { NotFoundError } from "../http-errors";
-import page from "@/app/(root)/page";
+import { NotFoundError, UnauthorizedError } from "../http-errors";
 import { assignBadges } from "../utils";
+import { IUserDoc } from "@/database/user.model";
 
 export async function getUsers(
     params: PaginatedSearchParams
@@ -304,6 +306,35 @@ export async function getUserStats(params: GetUserParams): Promise<
                 totalAnswers: finalAnswerStats.count,
                 badges,
             },
+        };
+    } catch (error) {
+        return handleError(error) as ErrorResponse;
+    }
+}
+
+export async function editUserProfile(
+    params: EditUserProfileParams
+): Promise<ActionResponse<{ user: User }>> {
+    const validationResult = await action({
+        params,
+        schema: EditUserProfileSchema,
+        authorize: true,
+    });
+
+    if (validationResult instanceof Error) {
+        return handleError(validationResult) as ErrorResponse;
+    }
+
+    const { user } = validationResult.session!;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(user?.id, params, {
+            new: true,
+        });
+
+        return {
+            success: true,
+            data: { user: JSON.parse(JSON.stringify(updatedUser)) },
         };
     } catch (error) {
         return handleError(error) as ErrorResponse;

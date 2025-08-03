@@ -13,10 +13,7 @@ const loading = () => {
 
             <div className="mt-12 grid grid-cols-1 gap-4 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
-                    <Skeleton
-                        key={item}
-                        className="h-40 w-full rounded-2xl"
-                    />
+                    <Skeleton key={item} className="h-40 w-full rounded-2xl" />
                 ))}
             </div>
         </section>

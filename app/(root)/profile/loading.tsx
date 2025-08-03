@@ -30,10 +30,7 @@ const loading = () => {
 
             <div className="mt-5 flex w-full flex-col gap-6">
                 {[1, 2, 3, 4, 5].map((item) => (
-                    <Skeleton
-                        key={item}
-                        className="h-32 w-full rounded-xl"
-                    />
+                    <Skeleton key={item} className="h-32 w-full rounded-xl" />
                 ))}
             </div>
         </section>
