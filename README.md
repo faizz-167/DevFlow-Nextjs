@@ -4,7 +4,6 @@
 
 <div align="center">
 
-![GitHub last commit](https://img.shields.io/github/last-commit/faizz-167/Devflow-NextJs?style=for-the-badge&color=blue)
 ![GitHub top language](https://img.shields.io/github/languages/top/faizz-167/Devflow-NextJs?style=for-the-badge&color=blue)
 ![GitHub language count](https://img.shields.io/github/languages/count/faizz-167/Devflow-NextJs?style=for-the-badge&color=blue)
 
@@ -37,13 +36,10 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Why DevFlow-Nextjs?](#why-devflow-nextjs)
+- [Why DevInsight-Nextjs?](#why-devinsight-nextjs)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
-- [Testing](#testing)
-
 ---
 
 ## Overview
@@ -52,16 +48,16 @@ DevFlow-Nextjs is an all-in-one developer platform toolkit built with Next.js, d
 
 ---
 
-## Why DevFlow-Nextjs?
+## Why DevInsight-Nextjs?
 
 This project aims to streamline the creation of modern developer tools and community platforms. The core features include:
 
--   **🔩 [Emoji] Authentication Workflows**: Supports sign-in via GitHub, Google, and custom credentials, with centralized session management.
--   **📝 [Emoji] Rich Content Editing**: Integrates MDX-based editors with syntax highlighting and media support for dynamic content creation.
--   **🔧 [Emoji] Modular UI Components**: Reusable elements like user profiles, questions, answers, voting, and navigation for rapid UI development.
--   **📊 [Emoji] Data Models**: Robust schemas for users, questions, answers, tags, and votes, enabling complex relationships and interactions.
--   **⚙️ [Emoji] Utility Functions**: URL management, styling helpers, and data formatting to ensure a seamless developer experience.
--   **🚀 [Emoji] Scalable Architecture**: Designed for maintainability and extensibility, supporting growth and feature expansion.
+-   **🔩 Authentication Workflows**: Supports sign-in via GitHub, Google, and custom credentials, with centralized session management.
+-   **📝 Rich Content Editing**: Integrates MDX-based editors with syntax highlighting and media support for dynamic content creation.
+-   **🔧 Modular UI Components**: Reusable elements like user profiles, questions, answers, voting, and navigation for rapid UI development.
+-   **📊 Data Models**: Robust schemas for users, questions, answers, tags, and votes, enabling complex relationships and interactions.
+-   **⚙️ Utility Functions**: URL management, styling helpers, and data formatting to ensure a seamless developer experience.
+-   **🚀 Scalable Architecture**: Designed for maintainability and extensibility, supporting growth and feature expansion.
 
 ---
 
@@ -71,7 +67,6 @@ This project aims to streamline the creation of modern developer tools and commu
 
 This project requires the following dependencies:
 
--   **Programming Language**: TypeScript
 -   **Package Manager**: Npm
 
 ### Installation
@@ -93,13 +88,3 @@ Build Devflow-Nextjs from the source and install dependencies:
     ```
 
 ---
-
-## Usage
-
-Run the project with:
-
-Using `npm`:
-
-```sh
-npm start
-TestingDevflow-Nextjs uses the (test_framework) test framework. Run the test suite with:Using npm:npm test
