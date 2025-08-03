@@ -21,8 +21,24 @@ export const metadata: Metadata = {
     title: "DevInsight",
     description:
         "DevInsight is a platform for developers to share and discover code snippets, tutorials, and resources.",
+    referrer: "origin-when-cross-origin",
+    keywords: [
+        "JavaScript",
+        "React",
+        "Next.js",
+        "web development",
+        "Dev Overflow",
+    ],
+    authors: { name: "Adrian" },
     icons: {
         icon: "/images/site-logo.svg",
+    },
+    creator: "Mohamed Faiz",
+    publisher: "Dev Insight",
+    formatDetection: {
+        email: false,
+        address: false,
+        telephone: false,
     },
 };
 

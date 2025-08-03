@@ -22,6 +22,7 @@ import { Answer, Collection, Interaction, Vote } from "@/database";
 import { after } from "next/server";
 import { createInteraction } from "./interaction.action";
 import { auth } from "@/auth";
+import { cache } from "react";
 
 export async function createQuestion(
     params: CreateQuestionParams
@@ -201,7 +202,7 @@ export async function editQuestion(
     }
 }
 
-export async function getQuestion(
+export const getQuestion = cache(async function getQuestion(
     params: GetQuestionParams
 ): Promise<ActionResponse<Question>> {
     const validationResult = await action({
@@ -231,7 +232,7 @@ export async function getQuestion(
     } catch (error) {
         return handleError(error) as ErrorResponse;
     }
-}
+});
 
 export async function getRecommendedQuestions({
     userId,
@@ -265,12 +266,9 @@ export async function getRecommendedQuestions({
     const uniqueTagIds = [...new Set(allTags)];
 
     const recommendedQuery: FilterQuery<typeof Question> = {
-        // exclude interacted questions
         _id: { $nin: interactedQuestionIds },
-        // exclude the user's own questions
         author: { $ne: new Types.ObjectId(userId) },
-        // include questions with any of the unique tags
-        tags: { $in: uniqueTagIds.map((id) => new Types.ObjectId(id)) },
+        tags: { $in: uniqueTagIds.map((id: string) => new Types.ObjectId(id)) },
     };
 
     if (query) {

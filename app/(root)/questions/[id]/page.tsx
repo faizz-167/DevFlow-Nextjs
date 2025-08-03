@@ -12,10 +12,30 @@ import { hasSavedQuestion } from "@/lib/actions/collections.action";
 import { getQuestion, incrementViews } from "@/lib/actions/question.action";
 import { hasVoted } from "@/lib/actions/vote.action";
 import { formatNumber, getTimeStamp } from "@/lib/utils";
+import { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { Suspense } from "react";
+
+export async function generateMetadata({
+    params,
+}: RouteParams): Promise<Metadata> {
+    const { id } = await params;
+
+    const { success, data: question } = await getQuestion({ questionId: id });
+
+    if (!success || !question)
+        return {
+            title: "Question not found",
+            description: "Question not found",
+        };
+
+    return {
+        title: question.title,
+        description: question.content.slice(0, 100),
+    };
+}
 
 const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
     const { id } = await params;
