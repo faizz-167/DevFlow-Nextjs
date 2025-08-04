@@ -54,7 +54,8 @@ const eslintConfig = [
             ],
             "comma-dangle": "off",
         },
-        "overrides": [
+        ignorePatterns: ["components/ui/**/*"],
+        overrides: [
             {
                 files: ["*.ts", "*.tsx"],
                 rules: {
