@@ -7,9 +7,9 @@ import { isValidObjectId } from "mongoose";
 
 export async function GET(
     request: Request,
-    { params }: { params: { userId: string } }
+    context: { params: { userId: string } }
 ) {
-    const { userId } = params;
+    const { userId } = context.params;
 
     try {
         await dbConnect();
