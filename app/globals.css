@@ -10,23 +10,23 @@ body {
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --color-primary-100: #fff1e6;
-    --color-primary-500: #ff7000;
+    --color-primary-100: #ffe6e0; /* Soft peach */
+    --color-primary-500: #ff5a1f; /* Vibrant orange */
 
-    --color-dark-100: #000000;
-    --color-dark-200: #0f1117;
-    --color-dark-300: #151821;
-    --color-dark-400: #212734;
-    --color-dark-500: #101012;
+    --color-dark-100: #23272f; /* Deep neutral */
+    --color-dark-200: #2e333d; /* Modern dark blue-gray */
+    --color-dark-300: #363b47; /* Slightly lighter than 200 */
+    --color-dark-400: #444b5a; /* Muted blue-gray */
+    --color-dark-500: #181a20; /* Near-black */
 
-    --color-light-400: #858ead;
-    --color-light-500: #7b8ec8;
-    --color-light-700: #dce3f1;
-    --color-light-800: #f4f6f8;
-    --color-light-850: #fdfdfd;
-    --color-light-900: #ffffff;
+    --color-light-400: #b0b8c1; /* Muted blue-gray */
+    --color-light-500: #7ec4ff; /* Vibrant sky blue */
+    --color-light-700: #e3f0ff; /* Soft blue */
+    --color-light-800: #f5f7fa; /* Lightest blue-gray */
+    --color-light-850: #fcfcfd; /* Almost white */
+    --color-light-900: #ffffff; /* Pure white */
 
-    --color-link-100: #1da1f2;
+    --color-link-100: #2563eb; /* Bright blue for links */
 
     --radius-2: 8px;
     --radius-1_5: 6px;
@@ -35,13 +35,13 @@ body {
     --radius-sm: calc(var(--radius) - 4px);
 
     --shadow-light-100:
-        0px 12px 20px 0px rgba(184, 184, 184, 0.03),
-        0px 6px 12px 0px rgba(184, 184, 184, 0.02),
-        0px 2px 4px 0px rgba(184, 184, 184, 0.03);
-    --shadow-light-200: 10px 10px 20px 0px rgba(218, 213, 213, 0.1);
-    --shadow-light-300: -10px 10px 20px 0px rgba(218, 213, 213, 0.1);
-    --shadow-dark-100: 0px 2px 10px 0px rgba(46, 52, 56, 0.1);
-    --shadow-dark-200: 2px 0px 20px 0px rgba(39, 36, 36, 0.04);
+        0px 12px 20px 0px rgba(46, 99, 235, 0.06),
+        0px 6px 12px 0px rgba(46, 99, 235, 0.04),
+        0px 2px 4px 0px rgba(46, 99, 235, 0.06);
+    --shadow-light-200: 10px 10px 20px 0px rgba(46, 99, 235, 0.1);
+    --shadow-light-300: -10px 10px 20px 0px rgba(46, 99, 235, 0.1);
+    --shadow-dark-100: 0px 2px 10px 0px rgba(46, 51, 61, 0.12);
+    --shadow-dark-200: 2px 0px 20px 0px rgba(44, 47, 53, 0.08);
 
     --background-image-auth-dark: url("/images/auth-dark.png");
     --background-image-auth-light: url("/images/auth-light.png");
@@ -578,10 +578,10 @@ code {
   ---break---
 */
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
 }

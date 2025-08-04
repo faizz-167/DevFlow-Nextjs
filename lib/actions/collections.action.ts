@@ -184,13 +184,13 @@ export async function getSavedQuestions(
             },
         });
 
-        const question = await Collection.aggregate(pipeline);
-        const isNext = totalCount.count > skip + question.length;
+        const collection = await Collection.aggregate(pipeline);
+        const isNext = (totalCount?.count || 0) > skip + collection.length;
 
         return {
             success: true,
             data: {
-                collection: JSON.parse(JSON.stringify(question)),
+                collection: JSON.parse(JSON.stringify(collection)),
                 isNext,
             },
         };
