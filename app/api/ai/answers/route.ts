@@ -10,6 +10,8 @@ const openai = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY,
 });
 
+export const maxDuration = 5;
+
 export async function POST(req: Request) {
     const { question, content, userAnswer } = await req.json();
     try {
@@ -44,3 +46,5 @@ export async function POST(req: Request) {
         return handleError(error, "api") as APIErrorResponse;
     }
 }
+
+export const runtime = "edge";
