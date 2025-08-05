@@ -72,7 +72,7 @@ const TagCard = ({
             <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]">
                 <div className="flex items-center justify-between gap-3">
                     <div className="background-light800_dark400 w-fit rounded-sm px-5 py-1.5">
-                        <p className="paragraph-semibold text-dark300_light900">
+                        <p className="paragraph-semibold text-dark400_light700">
                             {name}
                         </p>
                     </div>
